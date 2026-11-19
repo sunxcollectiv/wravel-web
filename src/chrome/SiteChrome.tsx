@@ -27,7 +27,10 @@ export function SiteChrome() {
       <footer className={styles.footer}>
         <div className={`container ${styles.footerInner}`}>
           <span>© {year} wravel</span>
-          <span className={styles.footerNote}>Plan trips together.</span>
+          <nav className={styles.footerNav} aria-label="Footer">
+            <Link to="/support">Support</Link>
+            <Link to="/privacy">Privacy</Link>
+          </nav>
         </div>
       </footer>
     </div>

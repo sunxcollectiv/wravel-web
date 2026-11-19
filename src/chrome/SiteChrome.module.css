@@ -67,6 +67,16 @@
   font: var(--text-footnote);
 }
 
-.footerNote {
-  text-align: right;
+.footerNav {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.footerNav a {
+  text-decoration: none;
+}
+
+.footerNav a:hover {
+  color: var(--color-foreground);
+  text-decoration: underline;
 }

@@ -2,6 +2,8 @@ import { createBrowserRouter } from "react-router";
 import { Chrome } from "./chrome";
 import { Landing } from "./pages/landing/Landing";
 import { NotFound } from "./pages/NotFound";
+import { Privacy } from "./pages/privacy/Privacy";
+import { Support } from "./pages/support/Support";
 
 /**
  * The route tree. Pages are grouped by the chrome they get: everything under
@@ -14,6 +16,8 @@ export const router = createBrowserRouter([
     element: <Chrome />,
     children: [
       { index: true, element: <Landing /> },
+      { path: "support", element: <Support /> },
+      { path: "privacy", element: <Privacy /> },
       { path: "*", element: <NotFound /> },
     ],
   },
