@@ -8,8 +8,5 @@ build
 # Local settings never reach the image: anything Vite reads from them would end
 # up in the public bundle. The one exception is .env.production, the server's
 # own public values (store URLs), which the build is meant to pick up.
-.env
-.env.local
-.env.*.local
-.env.development
-.env.staging
+.env*
+!.env.production

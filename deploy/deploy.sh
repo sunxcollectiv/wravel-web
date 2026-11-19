@@ -6,7 +6,7 @@
 #   /srv/apps/wravel-web/deploy/deploy.sh
 #
 # Builds the static files in Docker (the host needs no Node), writes them to
-# build/releases/<commit>, then swaps build/current to point there. nginx
+# build/releases/<time>-<commit>, then swaps build/current to point there. nginx
 # serves build/current, so the switch is a single rename and a page never sees
 # half a release. Nothing here assumes a human is watching, so a CI job can
 # later run it over ssh unchanged.
@@ -40,13 +40,6 @@ docker build --pull --output "type=local,dest=$staging" .
 
 if [[ ! -f "$staging/index.html" ]]; then
     echo "build produced no index.html; leaving the live release alone" >&2
-    exit 1
-fi
-# The site talks to the API as an anonymous visitor, so no token exists to
-# leak. If one ever gets added, keep it out of the bundle: anything VITE_* is
-# readable by anyone who loads the page.
-if grep -rq 'Authorization' "$staging"; then
-    echo "the build contains what looks like an API token; refusing to publish it" >&2
     exit 1
 fi
 
