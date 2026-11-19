@@ -6,6 +6,7 @@ import styles from "./Landing.module.css";
 export function Landing() {
   return (
     <>
+      <title>wravel — plan trips together</title>
       <section className={styles.hero}>
         <div className={`container ${styles.heroInner}`}>
           <WravelMark className={styles.heroMark} />
