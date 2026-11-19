@@ -5,16 +5,21 @@ Server setup only. To run the site locally, see the [main README](../README.md).
 - [First time](#first-time): [clone and build](#1-clone-and-build), [store URLs](#2-store-urls), [nginx site](#3-nginx-site-http), [HTTPS](#4-https)
 - [Deploying a new version](#deploying-a-new-version) (and rolling back)
 - [Changing the nginx site](#changing-the-nginx-site)
+- [API access (CORS)](#api-access-cors): what wravel-server needs before the site calls it
 
 Files: [`deploy.sh`](deploy.sh) · [`nginx.conf`](nginx.conf) · [`Dockerfile`](../Dockerfile) · [`.dockerignore`](../.dockerignore)
 
-The site is static files: nginx on the host serves them and proxies `/api/*`
-to wravel-server on loopback. It normally shares wravel-server's host, so
+The site is static files, and nginx on the host serves them; nothing else runs
+for it. Any API calls go straight from the browser to `https://api.wravel.app`,
+the same way the iOS and Android apps call it, so wravel-server has to allow the
+site's origin via CORS (see [API access (CORS)](#api-access-cors)). The site
+normally shares wravel-server's host, so
 [wravel-server's README](https://github.com/sunxcollectiv/wravel-server#deploying-to-a-server)
 covers the base setup (Docker, nginx, certbot, ufw, swap). The setup is the
 same as [wravel-manage](https://github.com/sunxcollectiv/wravel-manage)'s, with
-two things left out: there is no API token (the site calls the public
-endpoints as an anonymous visitor) and no basic-auth login (the site is public).
+three things left out: there is no API token (the site calls the public
+endpoints as an anonymous visitor), no basic-auth login (the site is public),
+and no `/api` reverse proxy (the browser talks to the API directly).
 
 | | Where |
 |---|---|
@@ -22,7 +27,6 @@ endpoints as an anonymous visitor) and no basic-auth login (the site is public).
 | Live files | `/srv/apps/wravel-web/build/current` (symlink to a release) |
 | Store URLs | `/srv/apps/wravel-web/.env.production` (gitignored, optional) |
 | nginx site | `/etc/nginx/sites-available/wravel-web`, copied from [`nginx.conf`](nginx.conf) |
-| API | `127.0.0.1:4830` (wravel-server) |
 
 ## First time
 
@@ -112,3 +116,31 @@ The live site file is a copy that certbot has edited, so a change to
 [`nginx.conf`](nginx.conf) here does not reach it. Make the same change in
 `/etc/nginx/sites-available/wravel-web` by hand, then
 `sudo nginx -t && sudo systemctl reload nginx`.
+
+## API access (CORS)
+
+The site has no API calls yet. When it gets them, the browser will call
+`https://api.wravel.app` from the site's own origin, and browsers only allow
+that if the API says so in its response headers. nginx here adds nothing, so the
+change is in wravel-server, not in this repo: register FastAPI's
+`CORSMiddleware` on the app in `app/main.py`, listing the production and staging
+site origins exactly (scheme and host, no path, no trailing slash). Open up
+methods and headers only as far as the site's calls need; the public endpoints
+are anonymous, so leave `allow_credentials` off unless the site ever sends
+cookies.
+
+```python
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://wravel.app", "https://<staging-site-domain>"],
+    allow_methods=["GET", "POST"],  # widen as the site's calls need
+    allow_headers=["Content-Type"],
+    allow_credentials=False,        # only if the site ever sends cookies
+)
+```
+
+Local development is unaffected until the site calls the API from
+`http://localhost:4630`; that origin would need adding on a local wravel-server
+too, or the dev build could point at staging.
