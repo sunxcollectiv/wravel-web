@@ -11,13 +11,15 @@ interface TextPageProps {
 /** A simple reading layout for plain text pages: title, optional subtitle, prose. */
 export function TextPage({ title, subtitle, children }: TextPageProps) {
   return (
-    <article className={`container ${styles.page}`}>
+    <section className={styles.surface}>
       <title>{`${title} — wravel`}</title>
-      <header className={styles.header}>
-        <h1 className={styles.title}>{title}</h1>
-        {subtitle ? <p className={styles.subtitle}>{subtitle}</p> : null}
-      </header>
-      <div className={styles.prose}>{children}</div>
-    </article>
+      <article className={`container ${styles.page}`}>
+        <header className={styles.header}>
+          <h1 className={styles.title}>{title}</h1>
+          {subtitle ? <p className={styles.subtitle}>{subtitle}</p> : null}
+        </header>
+        <div className={styles.prose}>{children}</div>
+      </article>
+    </section>
   );
 }

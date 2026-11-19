@@ -8,3 +8,6 @@ export const APP_STORE_URL: string =
 
 export const PLAY_STORE_URL: string =
   import.meta.env.VITE_PLAY_STORE_URL || "https://play.google.com/store";
+
+/** Where people write for help. Every support path on the site ends here. */
+export const SUPPORT_EMAIL = "support@wravel.app";

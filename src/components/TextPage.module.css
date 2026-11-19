@@ -1,3 +1,8 @@
+.surface {
+  flex: 1;
+  background: var(--gradient-dark);
+}
+
 .page {
   max-width: 760px;
   padding-block: var(--space-8) var(--space-9);
@@ -37,6 +42,14 @@
 .prose ul {
   margin: 0;
   padding-left: 1.25em;
+}
+
+.prose a {
+  color: var(--color-foreground);
+}
+
+.prose a:hover {
+  color: #fff;
 }
 
 @media (max-width: 600px) {
