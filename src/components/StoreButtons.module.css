@@ -1,0 +1,51 @@
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 56px;
+  padding: var(--space-2) var(--space-5) var(--space-2) var(--space-4);
+  border-radius: var(--radius-field);
+  background: var(--color-dark-bottom);
+  color: #fff;
+  text-decoration: none;
+  border: 1px solid rgb(255 255 255 / 0.12);
+  transition: transform 120ms ease, background-color 120ms ease;
+}
+
+.button:hover {
+  background: var(--color-dark);
+}
+
+.button:active {
+  transform: scale(0.98);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--color-foreground);
+  outline-offset: 2px;
+}
+
+.icon {
+  width: 26px;
+  height: 26px;
+  flex: none;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  font: var(--text-title3);
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.label small {
+  font: var(--text-caption);
+  opacity: 0.8;
+}

@@ -1,0 +1,51 @@
+/* Design tokens. Values come from the mobile apps' Theme (wravel-ios Theme.swift,
+   wravel-android Theme.kt) so the web matches the "temporary" terracotta branding.
+   Change a value here and every component follows. */
+:root {
+  /* Palette */
+  --color-background: #b06b45; /* warm terracotta: the primary surface */
+  --color-foreground: #f2e8d6; /* cream: text and icons on terracotta */
+  --color-accent: #8c4d2e; /* deeper rust: buttons and highlights */
+  --color-card: #9e5c3b; /* lifted card surface over the background */
+  --color-dark: #333336; /* drawers and sheets */
+  --color-dark-top: #36302e; /* top of the dark trips backdrop */
+  --color-dark-bottom: #1a1a1c; /* bottom of the dark trips backdrop */
+  --color-error: #ff6b78;
+  --color-trip-header: #4a637f;
+
+  /* Derived */
+  --color-foreground-muted: rgb(242 232 214 / 0.8);
+  --color-foreground-faint: rgb(242 232 214 / 0.6);
+  --color-hairline: rgb(242 232 214 / 0.12);
+  --color-fill-faint: rgb(242 232 214 / 0.08);
+  --gradient-dark: linear-gradient(var(--color-dark-top), var(--color-dark-bottom));
+
+  /* Type: the iOS text styles the apps are designed in */
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --text-large-title: 2.125rem / 1.2 var(--font-sans); /* 34/41 */
+  --text-title: 1.75rem / 1.21 var(--font-sans); /* 28/34 */
+  --text-title2: 1.375rem / 1.27 var(--font-sans); /* 22/28 */
+  --text-title3: 1.25rem / 1.25 var(--font-sans); /* 20/25 */
+  --text-headline: 600 1.0625rem / 1.3 var(--font-sans); /* 17/22 */
+  --text-body: 1.0625rem / 1.3 var(--font-sans); /* 17/22 */
+  --text-callout: 1rem / 1.31 var(--font-sans); /* 16/21 */
+  --text-subheadline: 0.9375rem / 1.33 var(--font-sans); /* 15/20 */
+  --text-footnote: 0.8125rem / 1.38 var(--font-sans); /* 13/18 */
+  --text-caption: 0.75rem / 1.33 var(--font-sans); /* 12/16 */
+
+  /* Shape and spacing */
+  --radius-field: 10px; /* inputs and buttons, as in the apps */
+  --radius-card: 16px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --content-width: 1120px;
+  --gutter: 20px;
+}

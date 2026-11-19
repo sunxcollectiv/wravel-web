@@ -1,0 +1,72 @@
+.frame {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgb(176 107 69 / 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.headerInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+}
+
+.home {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  text-decoration: none;
+}
+
+.mark {
+  width: 36px;
+  height: 18px;
+}
+
+.wordmark {
+  font: var(--text-headline);
+  letter-spacing: 0.01em;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.navSoon {
+  font: var(--text-subheadline);
+  color: var(--color-foreground-faint);
+}
+
+.main {
+  flex: 1;
+}
+
+.footer {
+  border-top: 1px solid var(--color-hairline);
+  background: var(--color-dark-bottom);
+  color: var(--color-foreground-faint);
+}
+
+.footerInner {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-block: var(--space-5);
+  font: var(--text-footnote);
+}
+
+.footerNote {
+  text-align: right;
+}
