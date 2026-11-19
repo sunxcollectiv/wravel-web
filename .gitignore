@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Server releases written by deploy/deploy.sh
+build
+# Per-server public values (store URLs); staging and production differ
+.env.production
