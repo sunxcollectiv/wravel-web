@@ -52,6 +52,16 @@ Everything `VITE_*` is compiled into the public JavaScript, so only values that
 may be public belong here. On a server the same two variables go in
 `.env.production` (also gitignored); see [deploy/README.md](deploy/README.md#2-store-urls).
 
+### API base URL (later)
+
+The site makes no API calls yet. When it does, the browser will call wravel-server
+directly, the way the iOS and Android apps do, with no proxy in nginx or in
+the Vite dev server. The base URL will be another public `VITE_*` value along the
+lines of `VITE_API_BASE_URL`, set to `https://api.wravel.app` in production, and
+wravel-server has to allow the site's origin via CORS first; see
+[API access (CORS)](deploy/README.md#api-access-cors). Nothing reads such a
+variable today.
+
 ## Deploying to a server
 
 Server-only setup is in [deploy/README.md](deploy/README.md). You don't need
