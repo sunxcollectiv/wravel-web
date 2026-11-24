@@ -24,6 +24,10 @@ Locally wravel-web serves on port **4630**: the dev server and `npm run preview`
 | `npm run preview` | Serve the production build                   |
 | `npm run lint`    | Lint with oxlint                             |
 
+Pull requests run `npm run lint` and `npm run build` in GitHub Actions
+([`.github/workflows/ci.yml`](.github/workflows/ci.yml)), so a change that does not
+build is caught on the PR, before it is merged and deployed.
+
 ### Building without Node
 
 Docker alone can build it, with no npm, Node or TypeScript on the machine. The
@@ -68,8 +72,8 @@ Server-only setup is in [deploy/README.md](deploy/README.md). You don't need
 any of it to run the site locally.
 
 - [First-time setup](deploy/README.md#first-time): clone, store URLs, [nginx](deploy/README.md#3-nginx-site-http), [HTTPS with certbot](deploy/README.md#4-https)
-- [Deploying a new version](deploy/README.md#deploying-a-new-version) and rolling back
-- Files: [`deploy/deploy.sh`](deploy/deploy.sh) · [`deploy/nginx.conf`](deploy/nginx.conf) · [`Dockerfile`](Dockerfile)
+- [Deploying a new version](deploy/README.md#deploying-a-new-version) and rolling back; merging into `main` [deploys by itself](deploy/README.md#automatic-deploys)
+- Files: [`deploy/deploy.sh`](deploy/deploy.sh) · [`deploy/nginx.conf`](deploy/nginx.conf) · [`Dockerfile`](Dockerfile) · [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)
 
 ## Layout
 
