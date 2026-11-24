@@ -1,0 +1,46 @@
+# Deploys production whenever main changes: runs deploy/deploy.sh on the server
+# over ssh, exactly what deploying by hand does. The one-time setup (deploy
+# user, ssh key, secrets) is in deploy/README.md, "Automatic deploys".
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  # "Run workflow" in the Actions tab, to redeploy without a new commit.
+  workflow_dispatch:
+
+# One deploy at a time. Two deploy.sh runs would trip over each other (each
+# clears build/releases/*.tmp), and a merge that lands mid-deploy should queue
+# and then deploy, not be dropped, hence no cancel-in-progress.
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    # Secrets live on this GitHub environment, not the repository, so later a
+    # staging job can have its own set, and required reviewers can be added.
+    environment: production
+    # The Docker build on the server takes a few minutes the first time.
+    timeout-minutes: 20
+    steps:
+      - name: Run deploy.sh on the server
+        env:
+          SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+          SSH_HOST: ${{ secrets.DEPLOY_HOST }}
+          SSH_USER: ${{ secrets.DEPLOY_USER }}
+        run: |
+          mkdir -p -m 700 ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          # Pinned host key: a server that presents another one is refused,
+          # rather than trusted on first use.
+          printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          # The key's authorized_keys line on the server forces deploy.sh as
+          # the command (deploy/README.md), so this key can run nothing else.
+          ssh -i ~/.ssh/deploy_key \
+              -o StrictHostKeyChecking=yes \
+              -o ServerAliveInterval=30 \
+              "$SSH_USER@$SSH_HOST" /srv/apps/wravel-web/deploy/deploy.sh

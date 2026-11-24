@@ -8,8 +8,9 @@
 # Builds the static files in Docker (the host needs no Node), writes them to
 # build/releases/<time>-<commit>, then swaps build/current to point there. nginx
 # serves build/current, so the switch is a single rename and a page never sees
-# half a release. Nothing here assumes a human is watching, so a CI job can
-# later run it over ssh unchanged.
+# half a release. Nothing here assumes a human is watching: GitHub Actions runs it
+# over ssh on every push to main (.github/workflows/deploy.yml), and it can
+# still be run by hand.
 
 set -euo pipefail
 cd "$(dirname "$(readlink -f "$0")")/.."

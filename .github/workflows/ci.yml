@@ -1,0 +1,29 @@
+# Lints and builds every pull request and every push to main, so a change that
+# fails `npm run build` (type-check included) shows up on the PR before it is
+# merged, rather than on the server during the deploy. Same Node major as the
+# Dockerfile, so what passes here is what deploy.sh builds.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# A new push to the same PR supersedes the run for the old one.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run build
